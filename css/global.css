@@ -1,0 +1,282 @@
+/* ─── CSS Custom Properties ─────────────────────────────────────────────── */
+:root {
+  --bg-primary:   #080808;
+  --bg-card:      #131313;
+  --bg-card-2:    #1a1a1a;
+  --gold:         #C9A04A;
+  --gold-light:   #e0b96a;
+  --gold-dim:     rgba(201, 160, 74, 0.15);
+  --silver:       #9B9B9B;
+  --text-primary: #F0EDE8;
+  --text-secondary: #8A8480;
+  --border:       rgba(201, 160, 74, 0.18);
+  --transition:   0.35s ease;
+  --radius:       4px;
+}
+
+/* ─── Reset ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Georgia', 'Times New Roman', serif;
+  overflow-x: hidden;
+  line-height: 1.7;
+}
+
+img { display: block; width: 100%; }
+a  { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ─── Typography ─────────────────────────────────────────────────────────── */
+.serif     { font-family: 'Georgia', serif; }
+.sans      { font-family: 'Helvetica Neue', Arial, sans-serif; }
+
+.label {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.gold-line {
+  width: 50px;
+  height: 1px;
+  background: var(--gold);
+  margin: 1.2rem 0;
+}
+
+.gold-line.center { margin: 1.2rem auto; }
+
+/* ─── Navigation ─────────────────────────────────────────────────────────── */
+#navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem 3.5rem;
+  transition: background var(--transition), padding var(--transition),
+              border-bottom var(--transition);
+}
+
+#navbar.scrolled {
+  background: rgba(8, 8, 8, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 3.5rem;
+}
+
+.nav-logo {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.8rem;
+}
+
+.nav-links a {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: color var(--transition);
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width var(--transition);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--gold);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  z-index: 910;
+  padding: 4px;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px; height: 1.5px;
+  background: var(--text-primary);
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+/* Mobile nav overlay */
+@media (max-width: 768px) {
+  #navbar { padding: 1.2rem 1.5rem; }
+  #navbar.scrolled { padding: 1rem 1.5rem; }
+
+  .hamburger { display: flex; }
+
+  .nav-links {
+    position: fixed;
+    top: 0; right: -100%;
+    width: min(75vw, 320px);
+    height: 100vh;
+    background: var(--bg-card);
+    border-left: 1px solid var(--border);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .nav-links.open { right: 0; }
+  .nav-links a { font-size: 0.85rem; letter-spacing: 0.25em; }
+}
+
+/* ─── Page Header (inner pages) ──────────────────────────────────────────── */
+.page-header {
+  min-height: 38vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 3.5rem 4rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, #0e0e0e 0%, #080808 100%);
+  border-bottom: 1px solid var(--border);
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,160,74,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.page-header .label { margin-bottom: 1rem; }
+
+.page-header h1 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: normal;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.page-header h1 span { color: var(--gold); }
+
+/* ─── Section Wrapper ────────────────────────────────────────────────────── */
+.section {
+  padding: 6rem 3.5rem;
+}
+
+.section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ─── Gold Button ────────────────────────────────────────────────────────── */
+.btn-gold {
+  display: inline-block;
+  padding: 0.75rem 2.2rem;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  transition: background var(--transition), color var(--transition);
+  cursor: pointer;
+}
+
+.btn-gold:hover {
+  background: var(--gold);
+  color: var(--bg-primary);
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+footer {
+  background: #050505;
+  border-top: 1px solid var(--border);
+  padding: 3.5rem;
+  text-align: center;
+}
+
+.footer-logo {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.footer-copy {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+
+/* ─── Reveal Animation (GSAP base) ──────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+/* ─── 3D Tilt Card ───────────────────────────────────────────────────────── */
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease, box-shadow var(--transition);
+  will-change: transform;
+}
+
+.tilt-card:hover {
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 40px rgba(201,160,74,0.08);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
